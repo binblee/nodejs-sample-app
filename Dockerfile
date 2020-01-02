@@ -11,4 +11,5 @@ RUN npm install
 FROM base AS release
 COPY --from=base /app/prod_node_modules /app/node_modules
 COPY . /app
+EXPOSE 3000
 CMD ["npm","start"]

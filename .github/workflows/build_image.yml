@@ -19,8 +19,8 @@ jobs:
       uses: denverdino/acr-login@master
       with:
         login-server: https://registry.cn-hangzhou.aliyuncs.com
-        username: "${{ secrets.REGISTRY_USERNAME }}"
-        password: "${{ secrets.REGISTRY_PASSWORD }}"
+        username: "${{ secrets.ACR_USERNAME }}"
+        password: "${{ secrets.ACR_PASSWORD }}"
     - name: Build and push image to ACR
       env:
         IMAGE_TAG: ${{ github.sha }}

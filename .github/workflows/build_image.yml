@@ -11,8 +11,19 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    name: test-flow
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - uses: actions/checkout@master
+    - name: Login to ACR by uid
+      uses: denverdino/acr-login@master
+      with:
+        login-server: https://registry.cn-hangzhou.aliyuncs.com
+        username: "${{ secrets.REGISTRY_USERNAME }}"
+        password: "${{ secrets.REGISTRY_PASSWORD }}"
+    - name: Build and push image to ACR
+      env:
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t registry.cn-hangzhou.aliyuncs.com/jingshan/nodejs-sample-app:$IMAGE_TAG .
+        docker push registry.cn-hangzhou.aliyuncs.com/jingshan/nodejs-sample-app:$IMAGE_TAG
